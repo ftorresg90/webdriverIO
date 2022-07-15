@@ -1,14 +1,4 @@
 var path = require('path');
-const ambientes = require('./tests/datos/ambientes.js')
- //obtener el ambiente seleccionado
-const AMBIENTE = process.env.AMBIENTE
-
- if (!AMBIENTE || !['testing', 'prod'].includes(AMBIENTE)) {
-    //si no se selecciona ningún ambiente se utiliza el ambiente de testing por defecto
-    console.log('Ejecutando testing por default')
-    AMBIENTE = 'testing'
- }
-
 exports.config = {
     //
     // ====================
@@ -30,7 +20,7 @@ exports.config = {
     // If you are calling `wdio` from an NPM script (see https://docs.npmjs.com/cli/run-script),
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
-    //    
+    //
     specs: [
         './tests/**/*.js'
     ],
@@ -109,7 +99,7 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl:  ambientes[AMBIENTE],
+    baseUrl: 'http://automationpractice.com/index.php',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -127,20 +117,18 @@ exports.config = {
     // commands. Instead, they hook themselves up into the test process.
     services: [
         [
-          'image-comparison',
-          {
-            baselineFolder: path.join(process.cwd(), './visual-regression/baseline/'),
-            formatImageName: '{tag}-{logName}-{width}x{height}',
-            screenshotPath: path.join(process.cwd(), './visual-regression/'),
-            savePerInstance: true,
-            autoSaveBaseline: true,
-            blockOutStatusBar: true,
-            blockOutToolBar: true,
-            // más opciones...
-          },
-        ],
-        'selenium-standalone',
-      ],
+        'image-comparison',
+        {
+          baselineFolder: path.join(process.cwd(), './visual-regression/baseline/'),
+          formatImageName: '{tag}-{logName}-{width}x{height}',
+          screenshotPath: path.join(process.cwd(), './visual-regression/'),
+          savePerInstance: true,
+          autoSaveBaseline: true,
+          blockOutStatusBar: true,
+          blockOutToolBar: true,
+          // más opciones...
+        },
+      ],'selenium-standalone'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -225,8 +213,10 @@ exports.config = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {Object}         browser      instance of created browser/device session
      */
-    // before: function (capabilities, specs) {
-    // },
+     beforeTest: function (test, context) {
+        const { addStep } = require('@wdio/allure-reporter').default
+        global.addStep = addStep
+     },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
@@ -248,11 +238,6 @@ exports.config = {
         global.wdioExpect = global.expect;
         const chai = require('chai');
         global.expect = chai.expect;
-     },
-
-     beforeTest: function (test, context) {
-        const { addStep } = require('@wdio/allure-reporter').default
-        global.addStep = addStep
      },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling

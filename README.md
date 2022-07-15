@@ -1,4 +1,4 @@
-# Curso-webdriverIO
+# desafioFinal-webdriverIO-abstracta
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/francisco142/curso-webdriverio.git
+git remote add origin https://gitlab.com/francisco142/desafiofinal-webdriverio-abstracta.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/francisco142/curso-webdriverio/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/francisco142/desafiofinal-webdriverio-abstracta/-/settings/integrations)
 
 ## Collaborate with your team
 
